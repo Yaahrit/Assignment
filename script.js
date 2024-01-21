@@ -2,7 +2,7 @@
 function fetchUserInformation() {
     const githubUsernameInput = document.getElementById('githubUsername');
     const githubUsername = githubUsernameInput.value.trim(); // Trim whitespace
-    const accessToken = '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'; // Replace with your actual GitHub personal access token
+    const accessToken = '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'; // Replace with your actual GitHub personal access token
 
     // Check if a username is entered
     if (!githubUsername) {
@@ -18,6 +18,9 @@ function fetchUserInformation() {
         },
     })
         .then(response => {
+            if (response.status === 404) {
+                throw new Error('User not found. Please enter a valid GitHub username.');
+            }
             if (!response.ok) {
                 throw new Error(`Failed to fetch user information: ${response.status} ${response.statusText}`);
             }
@@ -28,12 +31,14 @@ function fetchUserInformation() {
             displayUserProfile(userData);
 
             // Fetch repositories after fetching user information
-            fetchRepositories(1, 10);
+            fetchRepositories(githubUsername, 1, 500); // Pass the githubUsername here
         })
         .catch(error => {
             console.error('Error fetching user information:', error);
+            alert(`Error fetching user information: ${error.message}`);
         });
 }
+
 
 function displayUserProfile(user) {
     const userInfoContainer = document.getElementById('userInfo');
@@ -99,14 +104,12 @@ function displayUserProfile(user) {
     userInfoContainer.appendChild(card);
 }
 
-function fetchRepositories(page, perPage) {
+function fetchRepositories(username, page, perPage) {
     // Show loader
     document.getElementById('loader').classList.remove('d-none');
 
-    const githubUsernameInput = document.getElementById('githubUsername');
-    const githubUsername = githubUsernameInput.value.trim(); // Trim whitespace
-    const accessToken = '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'; // Replace with your actual GitHub personal access token
-    const apiUrl = `https://api.github.com/users/${githubUsername}/repos?page=${page}&per_page=${perPage}`;
+    const accessToken = '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'; // Replace with your actual GitHub personal access token
+    const apiUrl = `https://api.github.com/users/${username}/repos?page=${page}&per_page=${perPage}`;
 
     fetch(apiUrl, {
         headers: {
@@ -114,6 +117,9 @@ function fetchRepositories(page, perPage) {
         },
     })
         .then(response => {
+            if (response.status === 404) {
+                throw new Error('User not found. Please enter a valid GitHub username.');
+            }
             if (!response.ok) {
                 throw new Error(`Failed to fetch repositories: ${response.status} ${response.statusText}`);
             }
@@ -129,6 +135,7 @@ function fetchRepositories(page, perPage) {
         .catch(error => {
             // Handle error
             console.error('Error fetching repositories:', error);
+            alert(`Error fetching repositories: ${error.message}`);
             // Hide loader
             document.getElementById('loader').classList.add('d-none');
         });
@@ -169,4 +176,4 @@ function changePerPage() {
 }
 
 // Initial fetch (on page load)
-fetchRepositories(1, 10);
+fetchUserInformation();
