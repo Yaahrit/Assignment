@@ -1,15 +1,124 @@
 // Function to fetch and display repositories
+function fetchUserInformation() {
+    const githubUsernameInput = document.getElementById('githubUsername');
+    const githubUsername = githubUsernameInput.value.trim(); // Trim whitespace
+    const accessToken = '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'; // Replace with your actual GitHub personal access token
+
+    // Check if a username is entered
+    if (!githubUsername) {
+        alert('Please enter a GitHub username.');
+        return;
+    }
+
+    const apiUrl = `https://api.github.com/users/${githubUsername}`;
+
+    fetch(apiUrl, {
+        headers: {
+            Authorization: `token ${accessToken}`,
+        },
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Failed to fetch user information: ${response.status} ${response.statusText}`);
+            }
+            return response.json();
+        })
+        .then(userData => {
+            // Display user information
+            displayUserProfile(userData);
+
+            // Fetch repositories after fetching user information
+            fetchRepositories(1, 10);
+        })
+        .catch(error => {
+            console.error('Error fetching user information:', error);
+        });
+}
+
+function displayUserProfile(user) {
+    const userInfoContainer = document.getElementById('userInfo');
+    userInfoContainer.innerHTML = ''; // Clear existing content
+
+    const card = document.createElement('div');
+    card.classList.add('card');
+
+    const cardBody = document.createElement('div');
+    cardBody.classList.add('card-body');
+
+    // User Profile Image
+    const profileImage = document.createElement('img');
+    profileImage.classList.add('img-fluid', 'mb-3');
+    profileImage.src = user.avatar_url;
+    cardBody.appendChild(profileImage);
+
+    // Username
+    const username = document.createElement('h4');
+    username.textContent = user.name || 'No Name';
+    cardBody.appendChild(username);
+
+    // GitHub Username
+    const githubUsername = document.createElement('p');
+    githubUsername.classList.add('text-muted');
+    githubUsername.textContent = `GitHub: ${user.login}`;
+    cardBody.appendChild(githubUsername);
+
+    // Followers and Following
+    const followersFollowing = document.createElement('p');
+    followersFollowing.classList.add('text-muted');
+    followersFollowing.textContent = `Followers: ${user.followers} | Following: ${user.following}`;
+    cardBody.appendChild(followersFollowing);
+
+    // Location
+    if (user.location) {
+        const location = document.createElement('p');
+        location.classList.add('text-muted');
+        location.textContent = `Location: ${user.location}`;
+        cardBody.appendChild(location);
+    }
+
+    // Link
+    const link = document.createElement('a');
+    link.href = user.html_url;
+    link.target = '_blank';
+    link.textContent = 'GitHub Profile';
+    cardBody.appendChild(link);
+
+    // Social Links (if available)
+    if (user.blog) {
+        const blogLink = document.createElement('a');
+        blogLink.href = user.blog;
+        blogLink.target = '_blank';
+        blogLink.textContent = 'Blog';
+        cardBody.appendChild(blogLink);
+    }
+
+    // Append card body to card
+    card.appendChild(cardBody);
+
+    // Append card to user info container
+    userInfoContainer.appendChild(card);
+}
+
 function fetchRepositories(page, perPage) {
     // Show loader
     document.getElementById('loader').classList.remove('d-none');
 
-    // Replace 'YOUR_GITHUB_USERNAME' with the actual GitHub username
-    const githubUsername = 'luv-jeri';
+    const githubUsernameInput = document.getElementById('githubUsername');
+    const githubUsername = githubUsernameInput.value.trim(); // Trim whitespace
+    const accessToken = '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'; // Replace with your actual GitHub personal access token
     const apiUrl = `https://api.github.com/users/${githubUsername}/repos?page=${page}&per_page=${perPage}`;
 
-    // Fetch repositories from GitHub API
-    fetch(apiUrl)
-        .then(response => response.json())
+    fetch(apiUrl, {
+        headers: {
+            Authorization: `token ${accessToken}`,
+        },
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Failed to fetch repositories: ${response.status} ${response.statusText}`);
+            }
+            return response.json();
+        })
         .then(data => {
             // Hide loader
             document.getElementById('loader').classList.add('d-none');
@@ -52,7 +161,6 @@ function displayRepositories(repositories) {
         repoList.appendChild(card);
     });
 }
-
 
 // Function to handle change in repositories per page
 function changePerPage() {
