@@ -2,7 +2,7 @@
 function fetchUserInformation() {
     const githubUsernameInput = document.getElementById('githubUsername');
     const githubUsername = githubUsernameInput.value.trim(); // Trim whitespace
-    const accessToken = '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'; // Replace with your actual GitHub personal access token
+    const accessToken = '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'; // Replace with your actual GitHub personal access token
 
     // Check if a username is entered
     if (!githubUsername) {
@@ -108,7 +108,7 @@ function fetchRepositories(username, page, perPage) {
     // Show loader
     document.getElementById('loader').classList.remove('d-none');
 
-    const accessToken = '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'; // Replace with your actual GitHub personal access token
+    const accessToken = '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'; // Replace with your actual GitHub personal access token
     const apiUrl = `https://api.github.com/users/${username}/repos?page=${page}&per_page=${perPage}`;
 
     fetch(apiUrl, {
