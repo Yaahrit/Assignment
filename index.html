@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub Repositories</title>
+  <!-- Bootstrap CSS for styling, you can download it or use CDN -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container mt-4">
+    <h2 class="mb-4">GitHub Repositories</h2>
+    <!-- Pagination Section -->
+    <div class="mb-4">
+      <label for="perPage">Repositories per page: </label>
+      <select id="perPage" onchange="changePerPage()">
+        <option value="10">10</option>
+        <option value="25">25</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+    </div>
+    <!-- Loader Section -->
+    <div id="loader" class="d-none mb-4">
+      Loading...
+    </div>
+
+    <!-- Repository List Section -->
+    <div id="repoList" class="card-columns">
+      <!-- Repositories will be displayed here dynamically -->
+    </div>
+  </div>
+
+  <!-- Bootstrap JS and jQuery (if needed) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script src="script.js"></script>
+</body>
+</html>
