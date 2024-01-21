@@ -11,42 +11,35 @@
 </head>
 
 <body>
-    <div class="container mt-4">
-        <h2 class="mb-4">GitHub Repositories</h2>
-
-        <!-- User Input Section -->
-        <div class="mb-4">
-            <label for="githubUsername">Enter GitHub Username: </label>
-            <input type="text" id="githubUsername" />
-            <button class="btn btn-primary" onclick="fetchUserInformation()">Fetch Details</button>
-        </div>
-
+    <div class="container mt-5">
         <div class="row">
-            <!-- User Information Section -->
-            <div id="userInfo" class="mb-4 col-md-6">
-                <!-- User information will be displayed here dynamically -->
-            </div>
-
-            <!-- Pagination Section -->
-            <div class="mb-4 col-md-6">
-                <label for="perPage">Repositories per page: </label>
-                <select id="perPage" class="form-select" onchange="changePerPage()">
-                    <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                    <option value="500">500</option>
-                </select>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="githubUsername">GitHub Username:</label>
+                    <input type="text" class="form-control" id="githubUsername">
+                </div>
+                <button class="btn btn-primary" onclick="fetchUserInformation()">Fetch User Information</button>
             </div>
         </div>
 
-        <div class="row">
-            <!-- Loader Section -->
-            <div id="loader" class="d-none mb-4 col-md-12">Loading...</div>
+        <div class="mt-4" id="userInfo"></div>
 
-            <!-- Repository List Section -->
-            <div id="repoList" class="card-columns col-md-12">
-                <!-- Repositories will be displayed here dynamically -->
+        <div class="mt-4">
+            <label for="perPage">Repositories per Page:</label>
+            <select class="form-control" id="perPage" onchange="changePerPage()">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
+        </div>
+
+        <div class="mt-4" id="repoList"></div>
+
+        <!-- Loader -->
+        <div id="loader" class="d-none mt-4">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
             </div>
         </div>
     </div>

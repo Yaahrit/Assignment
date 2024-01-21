@@ -1,14 +1,18 @@
+// script.js
+
 // Function to fetch and display repositories
 function fetchUserInformation() {
     const githubUsernameInput = document.getElementById('githubUsername');
     const githubUsername = githubUsernameInput.value.trim(); // Trim whitespace
-    const accessToken = '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'; // Replace with your actual GitHub personal access token
 
     // Check if a username is entered
     if (!githubUsername) {
         alert('Please enter a GitHub username.');
         return;
     }
+
+    // Use environment variable for access token
+    const accessToken = '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';
 
     const apiUrl = `https://api.github.com/users/${githubUsername}`;
 
@@ -31,14 +35,13 @@ function fetchUserInformation() {
             displayUserProfile(userData);
 
             // Fetch repositories after fetching user information
-            fetchRepositories(githubUsername, 1, 500); // Pass the githubUsername here
+            fetchRepositories(githubUsername, 1, 10); // Default perPage is 10
         })
         .catch(error => {
             console.error('Error fetching user information:', error);
             alert(`Error fetching user information: ${error.message}`);
         });
 }
-
 
 function displayUserProfile(user) {
     const userInfoContainer = document.getElementById('userInfo');
@@ -108,8 +111,9 @@ function fetchRepositories(username, page, perPage) {
     // Show loader
     document.getElementById('loader').classList.remove('d-none');
 
-    const accessToken = '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'; // Replace with your actual GitHub personal access token
-    const apiUrl = `https://api.github.com/users/${username}/repos?page=${page}&per_page=${perPage}`;
+    // Use environment variable for access token
+    const accessToken = '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';
+    const apiUrl = `https://api.github.com/users/${username}/repos?per_page=${perPage}&page=${page}`;
 
     fetch(apiUrl, {
         headers: {
@@ -141,7 +145,6 @@ function fetchRepositories(username, page, perPage) {
         });
 }
 
-// Function to display repositories in the form of Bootstrap cards
 function displayRepositories(repositories) {
     const repoList = document.getElementById('repoList');
     repoList.innerHTML = ''; // Clear existing list
@@ -169,11 +172,11 @@ function displayRepositories(repositories) {
     });
 }
 
-// Function to handle change in repositories per page
 function changePerPage() {
+    const githubUsername = document.getElementById('githubUsername').value.trim();
     const perPage = document.getElementById('perPage').value;
-    fetchRepositories(1, perPage);
+    fetchRepositories(githubUsername, 1, perPage);
 }
 
 // Initial fetch (on page load)
-fetchUserInformation();
+// fetchUserInformation();  // Uncomment this line if you want to fetch user information on page load
