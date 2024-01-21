@@ -12,7 +12,7 @@ function fetchUserInformation() {
     }
 
     // Use environment variable for access token
-    const accessToken = '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';
+    const accessToken = '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';
 
     const apiUrl = `https://api.github.com/users/${githubUsername}`;
 
@@ -112,7 +112,7 @@ function fetchRepositories(username, page, perPage) {
     document.getElementById('loader').classList.remove('d-none');
 
     // Use environment variable for access token
-    const accessToken = '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';
+    const accessToken = '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';
     const apiUrl = `https://api.github.com/users/${username}/repos?per_page=${perPage}&page=${page}`;
 
     fetch(apiUrl, {
