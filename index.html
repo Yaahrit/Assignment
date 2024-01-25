@@ -11,18 +11,18 @@
 </head>
 
 <body>
-    <div class="container mt-5">
+    <div class="container mt-5 custom-container">
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="githubUsername">GitHub Username:</label>
                     <input type="text" class="form-control" id="githubUsername">
                 </div>
-                <button class="btn btn-primary" onclick="fetchUserInformation()">Fetch User Information</button>
+                <button class="btn btn-fetch" onclick="fetchUserInformation()">Fetch User Information</button>
             </div>
         </div>
 
-        <div class="mt-4" id="userInfo"></div>
+        <div class="mt-4 user-card" id="userInfo"></div>
 
         <div class="mt-4">
             <label for="perPage">Repositories per Page:</label>
@@ -34,7 +34,7 @@
             </select>
         </div>
 
-        <div class="mt-4" id="repoList"></div>
+        <div class="mt-4 repo-card" id="repoList"></div>
 
         <!-- Loader -->
         <div id="loader" class="d-none mt-4">
