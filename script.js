@@ -1,5 +1,3 @@
-// script.js
-
 // Function to fetch and display repositories
 function fetchUserInformation() {
     const githubUsernameInput = document.getElementById('githubUsername');
@@ -11,16 +9,9 @@ function fetchUserInformation() {
         return;
     }
 
-    // Use environment variable for access token
-    const accessToken = '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';
-
     const apiUrl = `https://api.github.com/users/${githubUsername}`;
 
-    fetch(apiUrl, {
-        headers: {
-            Authorization: `token ${accessToken}`,
-        },
-    })
+    fetch(apiUrl)
         .then(response => {
             if (response.status === 404) {
                 throw new Error('User not found. Please enter a valid GitHub username.');
@@ -67,39 +58,22 @@ function displayUserProfile(user) {
     // GitHub Username
     const githubUsername = document.createElement('p');
     githubUsername.classList.add('text-muted');
-    githubUsername.textContent = `GitHub: ${user.login}`;
+    githubUsername.innerHTML = `<i class="fab fa-github"></i> ${user.login}`;
     cardBody.appendChild(githubUsername);
 
     // Followers and Following
     const followersFollowing = document.createElement('p');
     followersFollowing.classList.add('text-muted');
-    followersFollowing.textContent = `Followers: ${user.followers} | Following: ${user.following}`;
+    followersFollowing.innerHTML = `<i class="fa fa-users"></i> ${user.followers} followers - ${user.following} following`;
     cardBody.appendChild(followersFollowing);
 
     // Location
     if (user.location) {
         const location = document.createElement('p');
         location.classList.add('text-muted');
-        location.textContent = `Location: ${user.location}`;
+        location.innerHTML = `<i class="fa-solid fa-location-crosshairs"></i> ${user.location}`;
         cardBody.appendChild(location);
     }
-
-    // Link
-    const link = document.createElement('a');
-    link.href = user.html_url;
-    link.target = '_blank';
-    link.textContent = 'GitHub Profile';
-    cardBody.appendChild(link);
-
-    // Social Links (if available)
-    if (user.blog) {
-        const blogLink = document.createElement('a');
-        blogLink.href = user.blog;
-        blogLink.target = '_blank';
-        blogLink.textContent = 'Blog';
-        cardBody.appendChild(blogLink);
-    }
-
     // Append card body to card
     card.appendChild(cardBody);
 
@@ -111,15 +85,9 @@ function fetchRepositories(username, page, perPage) {
     // Show loader
     document.getElementById('loader').classList.remove('d-none');
 
-    // Use environment variable for access token
-    const accessToken = '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';
     const apiUrl = `https://api.github.com/users/${username}/repos?per_page=${perPage}&page=${page}`;
 
-    fetch(apiUrl, {
-        headers: {
-            Authorization: `token ${accessToken}`,
-        },
-    })
+    fetch(apiUrl)
         .then(response => {
             if (response.status === 404) {
                 throw new Error('User not found. Please enter a valid GitHub username.');
@@ -144,6 +112,7 @@ function fetchRepositories(username, page, perPage) {
             document.getElementById('loader').classList.add('d-none');
         });
 }
+
 
 function displayRepositories(repositories) {
     const repoList = document.getElementById('repoList');
